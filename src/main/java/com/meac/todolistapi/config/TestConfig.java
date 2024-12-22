@@ -34,15 +34,6 @@ public class TestConfig implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        User user1 = new User(null, "Test", "12345");
-        userRepository.save(user1);
-
-        Todos task = new Todos(null, "Test1", "Test1", user1);
-        Todos task2 = new Todos(null, "Test2", "Test2", user1);
-
-        todosRepository.saveAll(Arrays.asList(task, task2));
-
-
 
 
 
@@ -56,10 +47,18 @@ public class TestConfig implements CommandLineRunner {
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             http
-                    .authorizeHttpRequests(auth ->
-                            auth.requestMatchers("/h2-console/**").permitAll()
+                    .authorizeHttpRequests(auth -> auth
+                            .requestMatchers("/h2-console/**").permitAll()
+                            .requestMatchers("/register").permitAll()
+                            .requestMatchers("/user/**").permitAll()
+                            .requestMatchers("todos/**").permitAll()
+                            .anyRequest().authenticated()
                     )
-                    .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
+                    .csrf(csrf -> csrf
+                            .ignoringRequestMatchers("/h2-console/**")
+                            .ignoringRequestMatchers("/user/**")
+                            .ignoringRequestMatchers("/register/**")
+                    )
                     .headers(headers -> headers
                             .frameOptions(frameOptions -> frameOptions.sameOrigin())
                     );
@@ -67,5 +66,6 @@ public class TestConfig implements CommandLineRunner {
             return http.build();
         }
     }
+
 
 }
