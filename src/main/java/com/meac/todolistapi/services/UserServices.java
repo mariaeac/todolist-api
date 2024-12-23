@@ -19,6 +19,7 @@ public class UserServices {
     }
 
     public User insert(User obj) {
+        validateNewUser(obj);
         return userRepository.save(obj);
     }
 
