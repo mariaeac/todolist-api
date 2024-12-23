@@ -35,8 +35,6 @@ public class TestConfig implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-
-
     }
 
 
@@ -50,7 +48,7 @@ public class TestConfig implements CommandLineRunner {
                     .authorizeHttpRequests(auth -> auth
                             .requestMatchers("/h2-console/**").permitAll()
                             .requestMatchers("/register").permitAll()
-                            .requestMatchers("/user/**").permitAll()
+                            .requestMatchers("/login").permitAll()
                             .requestMatchers("todos/**").permitAll()
                             .anyRequest().authenticated()
                     )
@@ -58,6 +56,7 @@ public class TestConfig implements CommandLineRunner {
                             .ignoringRequestMatchers("/h2-console/**")
                             .ignoringRequestMatchers("/user/**")
                             .ignoringRequestMatchers("/register/**")
+                            .ignoringRequestMatchers("/login/**")
                     )
                     .headers(headers -> headers
                             .frameOptions(frameOptions -> frameOptions.sameOrigin())

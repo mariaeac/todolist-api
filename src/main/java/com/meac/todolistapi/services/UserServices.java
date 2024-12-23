@@ -4,6 +4,7 @@ import com.meac.todolistapi.entities.User;
 import com.meac.todolistapi.services.exceptions.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.meac.todolistapi.repositories.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public class UserServices {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -20,6 +23,9 @@ public class UserServices {
 
     public User insert(User obj) {
         validateNewUser(obj);
+
+        obj.setPassword(passwordEncoder.encode(obj.getPassword()));
+
         return userRepository.save(obj);
     }
 
