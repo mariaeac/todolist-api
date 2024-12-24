@@ -38,33 +38,6 @@ public class TestConfig implements CommandLineRunner {
     }
 
 
-    @Configuration
-    @EnableWebSecurity
-    public class SecurityConfig {
-
-        @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-            http
-                    .authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/h2-console/**").permitAll()
-                            .requestMatchers("/register").permitAll()
-                            .requestMatchers("/login").permitAll()
-                            .requestMatchers("todos/**").permitAll()
-                            .anyRequest().authenticated()
-                    )
-                    .csrf(csrf -> csrf
-                            .ignoringRequestMatchers("/h2-console/**")
-                            .ignoringRequestMatchers("/user/**")
-                            .ignoringRequestMatchers("/register/**")
-                            .ignoringRequestMatchers("/login/**")
-                    )
-                    .headers(headers -> headers
-                            .frameOptions(frameOptions -> frameOptions.sameOrigin())
-                    );
-
-            return http.build();
-        }
-    }
 
 
 }
